@@ -1,23 +1,27 @@
+const loading = document.querySelector('.load');
+
 function openPage(pageName, elmnt, color) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
+  let i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName('tabcontent');
   for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = 'none';
   }
-  tablinks = document.getElementsByClassName("tablink");
+  tablinks = document.getElementsByClassName('tablink');
   for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].style.backgroundColor = "";
+    tablinks[i].style.backgroundColor = '';
   }
-  document.getElementById(pageName).style.display = "block";
+  document.getElementById(pageName).style.display = 'block';
   elmnt.style.backgroundColor = color;
 }
 
 // Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
+document.getElementById('defaultOpen').click();
+
+const baseurl = 'https://jsonplaceholder.typicode.com';
 
 // users card
 async function getUsers() {
-  let url = "https://jsonplaceholder.typicode.com/users";
+  let url = `${baseurl}/users`;
   try {
     let res = await fetch(url);
     return await res.json();
@@ -27,31 +31,31 @@ async function getUsers() {
 }
 
 async function renderUsers() {
+  loading.style.display = 'block';
   let users = await getUsers();
-  let html = "";
+  console.log(users);
+  let html = '';
   users.forEach((user) => {
     let htmlSegment = `<div class="user">
                             <h3>${user.name}</h3>
                             <a class="link" href="email:${user.email}">${user.email}</a>
-                            <a href="">
-                            <button>View More Info</button>
-                            </a>
+                            <button data-id=${user.id} type="button" onclick="getGender(event)" >View More Info</button>
                         </div>`;
 
     html += htmlSegment;
   });
 
   // let  load = false;
-  var container = document.getElementById("userCard");
-
+  var container = document.getElementById('userCard');
   container.innerHTML = html;
+  loading.style.display = 'none';
 }
 
 renderUsers();
 
 // albums card ;
 async function getAlbum() {
-  let url = "https://jsonplaceholder.typicode.com/albums";
+  let url = `${baseurl}/albums`;
   try {
     let res = await fetch(url);
     return await res.json();
@@ -61,7 +65,7 @@ async function getAlbum() {
 }
 async function renderAlbum() {
   let albums = await getAlbum();
-  let html = "";
+  let html = '';
   albums.forEach((album) => {
     let htmlSegment = `<div class="album">
                             <h3>${album.title}</h3>
@@ -70,19 +74,17 @@ async function renderAlbum() {
     html += htmlSegment;
   });
 
-  var containerAlbum = document.getElementById("userAlbum");
+  var containerAlbum = document.getElementById('userAlbum');
 
   containerAlbum.innerHTML = html;
 }
 
 renderAlbum();
 
-
-
-// photos card 
+// photos card
 
 async function getPhotos() {
-  let url = "https://jsonplaceholder.typicode.com/photos";
+  let url = `${baseurl}/photos`;
   try {
     let res = await fetch(url);
     return await res.json();
@@ -92,7 +94,7 @@ async function getPhotos() {
 }
 async function renderPhoto() {
   let photos = await getPhotos();
-  let html = "";
+  let html = '';
   photos.forEach((photo) => {
     let htmlSegment = `<div class="photo">
                            <div class="photo-image">
@@ -104,11 +106,19 @@ async function renderPhoto() {
     html += htmlSegment;
   });
 
-  var containerPhoto = document.getElementById("userPhoto");
+  var containerPhoto = document.getElementById('userPhoto');
 
   containerPhoto.innerHTML = html;
 }
 
 renderPhoto();
 
-
+const getGender = async (event) => {
+  console.log(event);
+  const userId = event.target.dataset.id;
+  console.log(userId);
+  // const result = await fetch(`${baseurl}/posts?userId=${userId}`);
+  const result = await fetch(`${baseurl}/users/${userId}`);
+  const posts = await result.json();
+  console.log(posts);
+};
