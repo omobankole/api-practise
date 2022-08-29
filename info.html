@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Api Practise</h1>
+    <div class="container-info">
+      <button id="back">
+        <img src="./images/211686_back_arrow_icon.svg" alt="" />
+      </button>
+      <div class="avatar"></div>
+      <div class="info">
+        <div class="load-info">
+          <img src="/images/Dual Ball-1s-84px.svg" alt="" />
+        </div>
+        <h2 class="name"></h2>
+        <div class="sub-info">
+          <div>
+            <span>Email</span>
+            <p class="email"></p>
+          </div>
+          <div>
+            <span>Phone</span>
+            <p class="phone"></p>
+          </div>
+          <div>
+            <span>Company</span>
+            <p class="company"></p>
+          </div>
+          <div>
+            <span>City</span>
+            <p class="location"></p>
+          </div>
+          <div>
+            <span>Website</span>
+            <p class="website"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-tab">
+      <div class="tab-container">
+        <button
+          class="tablink"
+          id="defaultOpen"
+          onclick="openPage('News', this, '#FFFFFF7F')"
+        >
+          Albums
+        </button>
+        <button
+          class="tablink"
+          onclick="openPage('Contact', this, '#FFFFFF7F')"
+        >
+          Todos
+        </button>
+        <button class="tablink" onclick="openPage('About', this, '#FFFFFF7F')">
+          Photos
+        </button>
+      </div>
+
+      <div id="News" class="tabcontent">
+        <div id="userAlbum"></div>
+      </div>
+
+      <div id="Contact" class="tabcontent">
+        <div id="userTodo"></div>
+      </div>
+
+      <div id="About" class="tabcontent">
+        <div id="userPhoto"></div>
+      </div>
+    </div>
+
+    <script src="/tab.js"></script>
+  </body>
+</html>
