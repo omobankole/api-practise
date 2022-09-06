@@ -1,27 +1,33 @@
 function openPage(pageName, elmnt, color) {
   let i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
+  tabcontent = document.getElementsByClassName('tabcontent');
   for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = 'none';
   }
-  tablinks = document.getElementsByClassName("tablink");
+  tablinks = document.getElementsByClassName('tablink');
   for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].style.backgroundColor = "";
+    tablinks[i].style.backgroundColor = '';
   }
-  document.getElementById(pageName).style.display = "block";
+  document.getElementById(pageName).style.display = 'block';
   elmnt.style.backgroundColor = color;
 }
 
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
+const getUserId = () => {
+  const queryParams = window.location.search;
+  const searchParams = new URLSearchParams(queryParams);
+  return searchParams.get('id') || 1;
+};
 
-let data = {};
-let loadData = document.querySelector(".load-info");
-const baseurl = "https://jsonplaceholder.typicode.com";
+// Get the element with id="defaultOpen" and click on it
+document.getElementById('defaultOpen').click();
+
+let loadData = document.querySelector('.load-info');
+const baseurl = 'https://jsonplaceholder.typicode.com';
 
 // users card
-async function getUsers() {
-  let url = `${baseurl}/users/${window.location.search.split("=")[1]}`;
+async function getUser() {
+  const id = getUserId();
+  let url = `${baseurl}/users/${id}`;
   try {
     let res = await fetch(url);
     return await res.json();
@@ -31,22 +37,23 @@ async function getUsers() {
 }
 
 (async function renderDetails() {
-  loadData.style.display = "block";
-  let details = await getUsers();
-  loadData.style.display = "none";
+  loadData.style.display = 'block';
+  const details = await getUser();
+  loadData.style.display = 'none';
   console.log(details);
-  data = details;
-  document.querySelector(".name").textContent = data.name;
-  document.querySelector(".email").textContent = data.email;
-  document.querySelector(".phone").textContent = data.phone;
-  document.querySelector(".company").textContent = data.company.name;
-  document.querySelector(".location").textContent = data.address.city;
-  document.querySelector(".website").textContent = data.website;
+  document.querySelector('.name').textContent = details.name;
+  document.querySelector('.email').textContent = details.email;
+  document.querySelector('.phone').textContent = details.phone;
+  document.querySelector('.company').textContent = details.company.name;
+  document.querySelector('.location').textContent = details.address.city;
+  document.querySelector('.website').textContent = details.website;
 })();
 
 // render todos
 async function getTodo() {
-  let url = `${baseurl}/users/${window.location.search.split("=")[1]}/todos`;
+  const id = getUserId();
+
+  let url = `${baseurl}/users/${id}/todos`;
   try {
     let res = await fetch(url);
     return await res.json();
@@ -56,7 +63,7 @@ async function getTodo() {
 }
 async function renderTodo() {
   let todos = await getTodo();
-  let html = "";
+  let html = '';
   todos.forEach((todo) => {
     let htmlSegment = `<div class="todo">
                             <h3>${todo.title}</h3>
@@ -65,7 +72,7 @@ async function renderTodo() {
     html += htmlSegment;
   });
 
-  var containerTodo = document.getElementById("userTodo");
+  var containerTodo = document.getElementById('userTodo');
 
   containerTodo.innerHTML = html;
 }
@@ -74,7 +81,9 @@ renderTodo();
 
 // photos card
 async function getPhotos() {
-  let url = `${baseurl}/albums/${window.location.search.split("=")[1]}/photos`;
+  const id = getUserId();
+
+  let url = `${baseurl}/albums/${id}/photos`;
   try {
     let res = await fetch(url);
     return await res.json();
@@ -84,7 +93,7 @@ async function getPhotos() {
 }
 async function renderPhoto() {
   let photos = await getPhotos();
-  let html = "";
+  let html = '';
   photos.forEach((photo) => {
     let htmlSegment = `<div class="photo">
                              <div class="photo-image"}>
@@ -95,7 +104,7 @@ async function renderPhoto() {
     html += htmlSegment;
   });
 
-  var containerPhoto = document.getElementById("userPhoto");
+  var containerPhoto = document.getElementById('userPhoto');
 
   containerPhoto.innerHTML = html;
 }
@@ -104,7 +113,9 @@ renderPhoto();
 
 // albums card;
 async function getAlbum() {
-  let url = `${baseurl}/users/${window.location.search.split("=")[1]}/albums`;
+  const id = getUserId();
+
+  let url = `${baseurl}/users/${id}/albums`;
   try {
     let res = await fetch(url);
     return await res.json();
@@ -114,7 +125,7 @@ async function getAlbum() {
 }
 async function renderAlbum() {
   let albums = await getAlbum();
-  let html = "";
+  let html = '';
   albums.forEach((album) => {
     let htmlSegment = `<div class="album">
                             <div class="photo-image"> 
@@ -126,13 +137,13 @@ async function renderAlbum() {
     html += htmlSegment;
   });
 
-  var containerAlbum = document.getElementById("userAlbum");
+  var containerAlbum = document.getElementById('userAlbum');
 
   containerAlbum.innerHTML = html;
 }
 
 renderAlbum();
 
-document.getElementById("back").addEventListener("click", () => {
+document.getElementById('back').addEventListener('click', () => {
   window.history.back();
 });
